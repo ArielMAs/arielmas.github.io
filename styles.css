@@ -51,6 +51,7 @@ h1 {
 .projects h2 {
   color: #333;
   margin-bottom: 20px;
+  text-align: center;
 }
 
 .project-container {
