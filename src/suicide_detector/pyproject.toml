@@ -12,6 +12,7 @@ dependencies = [
     "matplotlib>=3.10.0",
     "notebook>=7.3.2",
     "pandas>=2.2.3",
+    "pretty-jupyter>=2.0.8",
     "scikit-learn>=1.6.1",
     "seaborn>=0.13.2",
 ]

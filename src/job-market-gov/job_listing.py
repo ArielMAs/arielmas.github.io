@@ -54,9 +54,7 @@ def write_to_postgres(schema_name,jobs,duties,locations,job_category):
         
     postgresPassword = os.getenv("POSTGRES_PASSWORD")
     postgresUserName = os.getenv("POSTGRES_USER_NAME")
-    postgresPort = os.getenv("POSTGRES_PORT")
-
-    conn = psycopg2.connect(host='localhost',dbname='jobs_us', user=postgresUserName, password=postgresPassword,port=postgresPort)
+    conn = psycopg2.connect(host='localhost',dbname='jobs_us', user=postgresUserName, password=postgresPassword,port=5432)
 
     cur = conn.cursor()
     
