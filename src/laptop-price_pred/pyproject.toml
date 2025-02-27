@@ -1,0 +1,14 @@
+[project]
+name = "laptop-price-pred"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "ipykernel>=6.29.5",
+    "jupyter>=1.1.1",
+    "matplotlib>=3.10.1",
+    "pandas>=2.2.3",
+    "pretty-jupyter>=2.0.8",
+    "scikit-learn>=1.6.1",
+]
