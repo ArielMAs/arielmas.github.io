@@ -34,8 +34,8 @@ source .venv/bin/activate
 streamlit run Hello.py
 ```
 # Deployment
-1. Create requirements.txt for streamlit
+1. Requirements.txt created for streamlit(**Do not run**)
 ```
-uv pip compile pyproject.toml -o requirements.txt
+uv pip compile pyproject.toml -o wildfire_dashboard/requirements.txt
 ```
 2. Deploy on streamlit using streamlit GUI

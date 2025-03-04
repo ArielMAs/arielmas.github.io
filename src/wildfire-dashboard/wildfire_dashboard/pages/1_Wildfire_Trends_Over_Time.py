@@ -26,7 +26,7 @@ This dashboard helps to track **wildfire trends** over time, providing a clearer
 """)
 
 
-cal_fire = pd.read_csv('wildfire_proc.csv')
+cal_fire = pd.read_csv('wildfire_dashboard/wildfire_proc.csv')
 
 st.title("How have wildfires changed over time?")
 st.markdown("""

@@ -4,7 +4,7 @@ import pandas as pd
 
 st.sidebar.write("Users can select pages to explore specific wildfire trends.")
 
-cal_fire = pd.read_csv('wildfire_proc.csv')
+cal_fire = pd.read_csv('wildfire_dashboard/wildfire_proc.csv')
 
 totalAreaBurned = cal_fire['Area_Burned (Acres)'].sum()
 totalFinancialLoss = cal_fire['Estimated_Financial_Loss (Billion $)'].sum()

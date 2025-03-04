@@ -17,7 +17,7 @@ This section of the dashboard visualizes the **geographical distribution** and *
 By filtering the data for different years, users can track wildfire patterns and better understand the areas that have faced the greatest damage. These maps are invaluable for policymakers, emergency responders, and anyone interested in the geographical impacts of wildfires in California.
 """)
 
-cal_fire = pd.read_csv('wildfire_proc.csv')
+cal_fire = pd.read_csv('wildfire_dashboard/wildfire_proc.csv')
 
 years_filter = st.slider("Select years", 2014, 2023, (2014, 2023))
 years_filter_list = list(range(years_filter[0],years_filter[1]))
