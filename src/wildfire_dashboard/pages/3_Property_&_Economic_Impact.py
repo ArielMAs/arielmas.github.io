@@ -11,10 +11,10 @@ This section of the dashboard provides a detailed look at the **financial impact
 
 ### Key Insights:
 1. **Comparison of Damages to Homes, Businesses, and Vehicles per Year:**  
-   The first chart is a **stacked bar chart** that compares the number of **homes destroyed**, **businesses destroyed**, and **vehicles damaged** each year from 2014 to 2023. This allows us to see how these damages have evolved over time, providing insights into the trends and the varying severity of wildfire impacts on different sectors of society. The grouped bars make it easy to compare the damage across these categories for each year.
+   The first chart is a **stacked bar chart** that compares the number of **homes destroyed**, **businesses destroyed**, and **vehicles damaged** each year from 2014 to 2024. This allows us to see how these damages have evolved over time, providing insights into the trends and the varying severity of wildfire impacts on different sectors of society. The grouped bars make it easy to compare the damage across these categories for each year.
 
 2. **Distribution of Estimated Financial Losses per Wildfire:**  
-   The second chart is a **histogram** that shows the distribution of **estimated financial losses** due to wildfires, represented in millions of dollars. The **kernel density estimate (KDE)** overlay helps to visualize the distribution of financial losses across the wildfires in the dataset. This chart helps us understand the frequency of various levels of financial loss and highlights any particularly high-loss incidents, providing a sense of the economic burden wildfires impose on the state.
+   The second chart is a **histogram** that shows the distribution of **estimated financial losses** due to wildfires, represented in billions of dollars. The **kernel density estimate (KDE)** overlay helps to visualize the distribution of financial losses across the wildfires in the dataset. This chart helps us understand the frequency of various levels of financial loss and highlights any particularly high-loss incidents, providing a sense of the economic burden wildfires impose on the state.
 
 By filtering the data based on the selected location, users can gain insights into the financial consequences of wildfires at both the local and state levels, providing valuable information for future planning and mitigation strategies.
 """)
@@ -51,7 +51,7 @@ fig.update_layout(
     barmode='group',  # Grouped bars
     title='Grouped Bar Chart',
     xaxis_title='Year',
-    yaxis_title='Values',
+    yaxis_title='Frequency',
     xaxis=dict(tickmode='linear')
 )
 
@@ -59,10 +59,10 @@ fig.update_layout(
 st.plotly_chart(fig)
 
 fig = plt.figure(figsize=(10, 4))
-sns.histplot(cal_fire['Estimated_Financial_Loss (Million $)'], bins=30, kde=True, color='skyblue', edgecolor='black')
+sns.histplot(cal_fire['Estimated_Financial_Loss (Billion $)'], bins=30, kde=True, color='skyblue', edgecolor='black')
 
-plt.title('Estimated Financial Loss (Million $) distribution')
-plt.xlabel('Estimated Financial Loss (Million $)')
+plt.title('Estimated Financial Loss (Billion $) distribution')
+plt.xlabel('Estimated Financial Loss (Billion $)')
 plt.ylabel('Frequency')
 st.pyplot(fig)
 

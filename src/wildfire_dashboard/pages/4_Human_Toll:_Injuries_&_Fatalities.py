@@ -68,8 +68,8 @@ fig.add_trace(go.Line(x=year_injury_fatalities.index, y=year_injury_fatalities['
 # Update layout to add title and axis labels
 fig.update_layout(
     title="Number of Injuries/Fatalities per year (2014–2024)",
-    xaxis_title="X-axis Label",
-    yaxis_title="Y-axis Label"
+    xaxis_title="Year",
+    yaxis_title="Number of Injuries/Fatalities"
 )
 
 st.plotly_chart(fig)
@@ -107,7 +107,7 @@ fig.update_layout(
     barmode='group',  # Grouped bars
     title='Fatalities and injuries by wildfire size',
     xaxis_title='Wildfire size',
-    yaxis_title='Frequency',
+    yaxis_title='Number of Injuries/Fatalities',
     xaxis=dict(tickmode='linear')
 )
 

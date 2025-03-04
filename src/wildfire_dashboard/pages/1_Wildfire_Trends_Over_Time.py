@@ -65,7 +65,10 @@ incident_counts = cal_fire_month_year.groupby(["year", "month"]).size().reset_in
 # Pivot the data for the heatmap (Years as rows, Months as columns)
 heatmap_data = incident_counts.pivot(index="year", columns="month", values="Count").fillna(0)
 
-months_of_year_list = list(range(1,13))
+months_of_year_list = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+]
 years_list = list(range(2014,2024))
 heatmap_data = heatmap_data.reindex(index=years_list, columns=months_of_year_list, fill_value=0)
 
@@ -75,6 +78,7 @@ fig = px.imshow(heatmap_data,text_auto=True,
                 y=['2014', '2015','2016','2017','2018','2019','2020','2021','2022','2023'],
                 title='Incident Counts by Month and Year'
                )
+
 st.plotly_chart(fig)
 
 
@@ -86,7 +90,11 @@ elif pick_year_month == 'Month':
     metric = 'month'
 
 month_freq = cal_fire[metric].value_counts().sort_index().reset_index()
-fig = px.line(month_freq, x=metric, y="count", title=f'Number of wildfires per {metric}')
+fig = px.line(month_freq, x=metric, y="count", title=f'Number of wildfires per {metric}' )
+fig.update_layout(
+    xaxis_title=pick_year_month,
+    yaxis_title="Number of wildfires"
+)
 st.plotly_chart(fig)
 
 #Bar Chart: Area burned per year (in acres).
@@ -97,5 +105,9 @@ area_burned_per_year = cal_fire_year_area_burned.groupby(metric).sum().reset_ind
 
 fig = px.bar(area_burned_per_year, y='Area_Burned (Acres)', x=metric, text_auto='.2s',
             title=f"Area Burned (Acres) per {metric}")
+fig.update_layout(
+    xaxis_title=pick_year_month,
+    yaxis_title="Area Burned (Acres)"
+)
 fig.update_traces(textfont_size=12, textangle=0, textposition="outside", cliponaxis=False)
 st.plotly_chart(fig)

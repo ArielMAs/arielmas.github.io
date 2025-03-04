@@ -6,7 +6,7 @@ import plotly.express as px
 st.markdown("""
 # Wildfire Causes, Area Burned, and Financial Losses
 
-This section of the dashboard provides insights into various factors that contribute to wildfires in California, including their causes, the area burned, and the financial losses associated with them. The data presented is filtered based on the years selected (2014–2023) and, if applicable, the location of the wildfires.
+This section of the dashboard provides insights into various factors that contribute to wildfires in California, including their causes, the area burned, and the financial losses associated with them. The data presented is filtered based on the years selected (2014–2024) and, if applicable, the location of the wildfires.
 
 ### Key Insights:
 1. **Percentage of Wildfires by Cause (Lightning, Human Activity, Unknown):**  
@@ -59,12 +59,14 @@ fig.update_layout(
 st.plotly_chart(fig)
 
 #Bar Chart: Financial losses by cause type.
-loss_couse = cal_fire[['Cause','Estimated_Financial_Loss (Million $)']].groupby('Cause',as_index=False).sum()
-fig = px.bar(loss_couse, x='Cause', y='Estimated_Financial_Loss (Million $)')
+loss_couse = cal_fire[['Cause','Estimated_Financial_Loss (Billion $)']].groupby('Cause',as_index=False).sum()
+fig = px.bar(loss_couse, x='Cause', y='Estimated_Financial_Loss (Billion $)',text_auto='.2s')
+fig.update_traces(textfont_size=12, textangle=0, textposition="outside", cliponaxis=False)
+
 fig.update_layout(
     title='Financial losses by cause type',
     xaxis_title='Wildfire Cause',
-    yaxis_title='Estimated Financial_Loss (Million $)'
+    yaxis_title='Estimated Financial Loss (Billion $)'
     )
 
 st.plotly_chart(fig)

@@ -9,7 +9,7 @@ This section of the dashboard visualizes the **geographical distribution** and *
 
 ### Key Insights:
 1. **Wildfire Frequency by County:**  
-   The first chart is a **choropleth map** that visualizes the frequency of wildfires in each county, using color to indicate the number of incidents. This map highlights the counties most affected by wildfires, with darker colors representing higher frequencies. By filtering the data by year, you can explore how wildfire occurrences have changed over time in different regions of California.
+   The first chart is a **choropleth map** that visualizes the frequency of wildfires in each county, using color to indicate the number of incidents. This map highlights the counties most affected by wildfires, with darker colors representing less frequencies. By filtering the data by year, you can explore how wildfire occurrences have changed over time in different regions of California.
 
 2. **Incident Locations Scaled by Area Burned:**  
    The second chart is a **scatter map** that shows the **locations of wildfire incidents** in California. The size of each point on the map represents the **area burned** (in acres). Hovering over the points will provide additional information, including the number of **homes destroyed**, **fatalities**, and **estimated financial losses** for each incident. This map allows us to see where the largest and most devastating wildfires have occurred across the state.
@@ -149,7 +149,7 @@ scatter_df = cal_fire[["county",
                        "Area_Burned (Acres)",
                        "Homes_Destroyed",
                        "Fatalities",
-                       "Estimated_Financial_Loss (Million $)"
+                       "Estimated_Financial_Loss (Billion $)"
                       ]].groupby("county").sum().reset_index()
 
 # Map county names to lat/lon
@@ -168,7 +168,7 @@ fig = px.scatter_mapbox(
         "Longitude": False,
         "Homes_Destroyed": True,
         "Fatalities": True,
-        "Estimated_Financial_Loss (Million $)": True
+        "Estimated_Financial_Loss (Billion $)": True
     },
     zoom=4,  # Lower zoom for full-state view
     center={"lat": 37.5, "lon": -119.5},  # Centered over California
