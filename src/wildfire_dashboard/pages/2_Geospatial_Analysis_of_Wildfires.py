@@ -1,18 +1,6 @@
-#(B) Geospatial Analysis of Wildfires
-#Goal: Identify high-risk areas and hotspots.
-#🔹 Visualizations:
-
-#Choropleth Map: Wildfire frequency by county.
-#Scatter Map: Incident locations, scaled by area burned.
-#Bubble Map: Financial losses across California (size of bubble = cost).
-#Insights to extract:
-#📌 Which counties experience the most destruction?
-#📌 Are certain locations more prone to large-scale wildfires?
-
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-import matplotlib.pyplot as plt
 
 st.markdown("""
 # Wildfire Incident Locations and Frequency

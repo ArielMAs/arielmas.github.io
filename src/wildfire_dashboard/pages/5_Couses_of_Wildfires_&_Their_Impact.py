@@ -1,19 +1,7 @@
-#(E) Causes of Wildfires & Their Impact
-#Goal: Determine how wildfire causes affect severity.
-#🔹 Visualizations:
-
-#Pie Chart: Percentage of wildfires by cause (Lightning, Human Activity, Unknown).
-#Box Plot: Area burned by wildfire cause (which causes the most damage?).
-#Bar Chart: Financial losses by cause type.
-#Insights to extract:
-#📌 Do human-caused wildfires lead to more damage than natural ones?
-#📌 How does each cause affect financial losses and injuries?
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-import matplotlib.pyplot as plt
-import numpy as np
-import plotly.graph_objects as go
+
 
 st.markdown("""
 # Wildfire Causes, Area Burned, and Financial Losses
@@ -58,7 +46,7 @@ if counties_filter!='All':
 fire_cause = cal_fire['Cause'].value_counts().reset_index()
 fire_cause['p'] = fire_cause['count']/fire_cause['count'].sum()
 
-fig = px.pie(fire_cause, values='p', names='Cause', title='Pie Chart: Percentage of wildfires by cause (Lightning, Human Activity, Unknown)')
+fig = px.pie(fire_cause, values='p', names='Cause', title='Percentage of wildfires by cause (Lightning, Human Activity, Unknown)')
 st.plotly_chart(fig)
 
 #Box Plot: Area burned by wildfire cause (which causes the most damage?).

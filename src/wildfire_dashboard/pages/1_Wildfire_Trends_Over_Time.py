@@ -1,16 +1,3 @@
-#2. Key Visualizations & Insights
-#(A) Wildfire Trends Over Time
-#Goal: Identify yearly and seasonal wildfire trends.#
-#🔹 Visualizations:
-
-#Line Chart: Number of incidents per year (2014–2024).
-#Heatmap: Month-wise frequency of wildfires (seasonal trends).
-#Bar Chart: Area burned per year (in acres).
-
-#Insights to extract:
-#* Are wildfires increasing over time? No clear trend. Fires seemed to have happend less between the 2016-2020 but 2021-2023 seem to go back to the same trend as 2014-2015(if not a bit more)
-#* Which months are the most fire-prone? - Although in the past few years there has been a trend of more fires during summer months, it is not a clear trend
-
 import streamlit as st
 import pandas as pd
 import plotly.express as px

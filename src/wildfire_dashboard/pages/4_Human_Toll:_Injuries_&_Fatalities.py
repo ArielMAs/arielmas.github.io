@@ -1,7 +1,6 @@
 
 import streamlit as st
 import pandas as pd
-import plotly.express as px
 import matplotlib.pyplot as plt
 import numpy as np
 import plotly.graph_objects as go
@@ -68,7 +67,7 @@ fig.add_trace(go.Line(x=year_injury_fatalities.index, y=year_injury_fatalities['
 fig.add_trace(go.Line(x=year_injury_fatalities.index, y=year_injury_fatalities['Fatalities'], name='Fatalities'))
 # Update layout to add title and axis labels
 fig.update_layout(
-    title="Number of Injuries/Fatalities per year (2014–2024)'",
+    title="Number of Injuries/Fatalities per year (2014–2024)",
     xaxis_title="X-axis Label",
     yaxis_title="Y-axis Label"
 )

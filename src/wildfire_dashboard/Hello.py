@@ -1,19 +1,3 @@
-#🏠 1️⃣ Home Page (Introduction & Key Metrics)
-#📍 Purpose:
-
-#Provide an overview of California wildfires (2014-2024).
-#Summarize total incidents, area burned, financial losses, and human impact.
-#📊 Elements:
-#✅ Title: "California Wildfire Dashboard (2014-2024)"
-#✅ Subtitle: "Explore trends, financial losses, and human impact of wildfires in California."
-#✅ Key Metrics (Displayed at the Top):
-
-#Total Incidents
-#Total Area Burned (Acres)
-#Total Financial Loss ($M)
-#Total Fatalities & Injuries
-#✅ Navigation Instructions: Explain that users can select pages to explore specific wildfire trends.
-
 import streamlit as st
 import pandas as pd
 

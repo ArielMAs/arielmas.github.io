@@ -1,21 +1,8 @@
-#(B) Geospatial Analysis of Wildfires
-#Goal: Identify high-risk areas and hotspots.#
-#🔹 Visualizations:
-
-#Choropleth Map: Wildfire frequency by county.
-#Scatter Map: Incident locations, scaled by area burned.
-#Bubble Map: Financial losses across California (size of bubble = cost).
-#Insights to extract:
-#📌 Which counties experience the most destruction?
-#📌 Are certain locations more prone to large-scale wildfires?
-
-
 import streamlit as st
 import pandas as pd
-import plotly.express as px
 import matplotlib.pyplot as plt
-import numpy as np
 import plotly.graph_objects as go
+import seaborn as sns
 
 st.markdown("""
 # Financial Impact of Wildfires: Damages and Losses
@@ -71,15 +58,11 @@ fig.update_layout(
 # Show figure
 st.plotly_chart(fig)
 
-#Histogram: Estimated financial losses per wildfire.
-
-#plt.hist(cal_fire['Estimated_Financial_Loss (Million $)'], bins=30, color='skyblue', edgecolor='black')
-import seaborn as sns
 fig = plt.figure(figsize=(10, 4))
 sns.histplot(cal_fire['Estimated_Financial_Loss (Million $)'], bins=30, kde=True, color='skyblue', edgecolor='black')
 
-plt.title('Estimated_Financial_Loss (Million $) distribution')
-plt.xlabel('Estimated_Financial_Loss (Million $)')
+plt.title('Estimated Financial Loss (Million $) distribution')
+plt.xlabel('Estimated Financial Loss (Million $)')
 plt.ylabel('Frequency')
 st.pyplot(fig)
 
