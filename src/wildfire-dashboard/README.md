@@ -33,3 +33,9 @@ source .venv/bin/activate
 ```
 streamlit run Hello.py
 ```
+# Deployment
+1. Create requirements.txt for streamlit
+```
+uv pip compile pyproject.toml -o requirements.txt
+```
+2. Deploy on streamlit using streamlit GUI
