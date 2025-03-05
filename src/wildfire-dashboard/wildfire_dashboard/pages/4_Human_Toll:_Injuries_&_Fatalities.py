@@ -20,9 +20,10 @@ This section of the dashboard provides an in-depth look into the human toll caus
 
 By filtering the data based on location and wildfire cause, users can tailor the analysis to specific regions or factors, providing a deeper understanding of the human consequences of wildfires in California.
 """)
-import os
-st.write(os.getcwd())
-cal_fire = pd.read_csv('./wildfire_proc.csv')
+
+
+cal_fire = pd.read_csv('src/wildfire-dashboard/wildfire_dashboard/wildfire_proc.csv')
+
 
 counties = list(cal_fire['county'].unique())
 counties.insert(0,'All')

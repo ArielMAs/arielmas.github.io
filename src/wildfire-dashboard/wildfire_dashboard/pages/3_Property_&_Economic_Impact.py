@@ -19,7 +19,7 @@ This section of the dashboard provides a detailed look at the **financial impact
 By filtering the data based on the selected location, users can gain insights into the financial consequences of wildfires at both the local and state levels, providing valuable information for future planning and mitigation strategies.
 """)
 
-cal_fire = pd.read_csv('wildfire_dashboard/wildfire_proc.csv')
+cal_fire = pd.read_csv('src/wildfire-dashboard/wildfire_dashboard/wildfire_proc.csv')
 
 counties = list(cal_fire['county'].unique())
 counties.insert(0,'All')
