@@ -25,8 +25,7 @@ Explore the trends and changes in wildfire incidents across California, focusing
 This dashboard helps to track **wildfire trends** over time, providing a clearer picture of how wildfires are changing, their seasonal patterns, and the extent of their damage. It’s a powerful tool for understanding the broader implications of these incidents and for informing policy decisions and preparedness strategies.
 """)
 
-
-cal_fire = pd.read_csv('wildfire_proc.csv')
+cal_fire = pd.read_csv('src/wildfire-dashboard/wildfire_dashboard/wildfire_proc.csv')
 
 st.title("How have wildfires changed over time?")
 st.markdown("""

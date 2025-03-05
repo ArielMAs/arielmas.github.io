@@ -21,7 +21,7 @@ This section of the dashboard provides insights into various factors that contri
 By filtering the data based on the years and location, users can explore how the causes and impacts of wildfires change over time and across different regions.
 """)
 
-cal_fire = pd.read_csv('wildfire_proc.csv')
+cal_fire = pd.read_csv('src/wildfire-dashboard/wildfire_dashboard/wildfire_proc.csv')
 
 counties = list(cal_fire['county'].unique())
 counties.insert(0,'All')
