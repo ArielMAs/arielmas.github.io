@@ -67,7 +67,7 @@
         We use run.sh to handle API requests, authentication, and pagination automatically.
         </p>
         <b>This script:</b>
-            <li>Authenticates using an email and API key</li>
+            <li>Authenticates using an <a href="https://developer.usajobs.gov/apirequest/">Email and API key</a></li>
             <li>Fetches job listings in pages of 500 results for the last 60 days</li>
             <li>Handles pagination until all jobs are retrieved</li>
             <li>Extracts key job details using jq (JSON processor)</li>
@@ -98,7 +98,7 @@ PAGE=1
 echo running
 echo '[]' > main.json
 
-# Loop through pages until we reach the max rows or no more results
+# Loop through pages until no more results
 echo "Connection to API started"
 while true; do
     # Make the request for the current page
@@ -137,7 +137,7 @@ echo "Connection to API ended. Long JSON is ready."
                     </div>
                 </div>
             </div>
-            
+            <br>
             <h2>Step 2: Structuring the Data</h2>
             <p>
             Once we have the raw data, we need to clean and process it,
@@ -157,7 +157,7 @@ echo "Connection to API ended. Long JSON is ready."
                 </h2>
                 <div id="dataCleaning" class="accordion-collapse collapse">
                     <div class="accordion-body">
-                        <pre><code class="language-python">import pandas as pd
+                        <pre><code class="language-python">
 import pandas as pd
 import argparse
 import os
@@ -258,7 +258,7 @@ if __name__ == "__main__":
                     </div>
                 </div>
             </div>
-            
+            <br>
             <h2>Step 3: Dockerizing the Project</h2>
             <p>
                 To ensure the tool runs in a consistent, reproducible environment, we use Docker.
@@ -308,6 +308,7 @@ RUN uv venv && \
                 </div>
             </div>
         </div>
+        <br>
             <h2>Conclusion</h2>
             <p>
             The Job Market Gov tool automates the collection and analysis of government job listings.
