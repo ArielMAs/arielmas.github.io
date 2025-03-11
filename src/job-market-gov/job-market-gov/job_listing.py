@@ -12,7 +12,7 @@ def sub_object_json_extractor(df,json_col,columns_to_keep):
     locations = loce_df.join(location_df[columns_to_keep]).drop(json_col,axis=1)
     return locations
 
-def rumenation_extractor(df):
+def remuneration_extractor(df):
     # Flatten the nested dictionary in the 'PositionLocation' column
     remuneration_df_explode = df.explode('PositionRemuneration')
     remuneration_df = pd.json_normalize(remuneration_df_explode['PositionRemuneration'])
@@ -75,7 +75,7 @@ def main(path,first_run):
     df_clean = df_clean.join(userArea)
     locations = sub_object_json_extractor(df=df_clean,json_col='PositionLocation',columns_to_keep=['LocationName', 'CountryCode', 'CountrySubDivisionCode', 'CityName', 'Longitude', 'Latitude'])
     job_category = sub_object_json_extractor(df=df_clean,json_col='JobCategory',columns_to_keep=['Name', 'Code'])
-    df_clean = rumenation_extractor(df=df_clean)
+    df_clean = remuneration_extractor(df=df_clean)
     df_clean['date_col'] = pd.to_datetime(df_clean['PublicationStartDate']).dt.date
     duties = df_clean[['PositionID','Details_MajorDuties']].explode('Details_MajorDuties')
     jobs = df_clean.drop(['UserArea','PositionLocation','JobCategory','Details_MajorDuties','MinimumRange','MaximumRange','RateIntervalCode','PublicationStartDate','PositionRemuneration'],axis=1)

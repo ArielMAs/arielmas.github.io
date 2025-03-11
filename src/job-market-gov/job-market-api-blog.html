@@ -72,7 +72,8 @@
             <li>Handles pagination until all jobs are retrieved</li>
             <li>Extracts key job details using jq (JSON processor)</li>
             <li>Stores data in main.json for processing</li>
-        </ul>
+        <br>
+
         <!-- Collapsible Sections -->
         <div class="accordion" id="jobDataAccordion">
             <div class="accordion-item">
@@ -87,7 +88,7 @@
 #Search Jobs API rate limitations
 #Maximum of 10,000 rows per query
 #Maximum of 500 rows per page
-
+#We use jq to extract relevant fields from the raw JSON response, reducing unnecessary data before processing.
 EMAIL=$API_EMAIL
 AUTH_KEY=$API_AUTH
 BASE_URL="https://data.usajobs.gov/api/search"
@@ -147,7 +148,8 @@ echo "Connection to API ended. Long JSON is ready."
             <p>
             <b>This script:</b>
             <li>Loads JSON data extracted in step 1
-            <li>Normalizes salaries to a yearly format (hourly wages converted)
+            <li>Normalizes salaries to a yearly format (hourly wages converted). 
+                Since salary formats vary (e.g., hourly vs. annual), we standardize them for easier comparison.
             <li>Computes salary ranges (min, max, mean, range)
             <li>Stores processed data in Parquet format for efficient querying
             </ul>
@@ -172,7 +174,7 @@ def sub_object_json_extractor(df,json_col,columns_to_keep):
     locations = loce_df.join(location_df[columns_to_keep]).drop(json_col,axis=1)
     return locations
 
-def rumenation_extractor(df):
+def remuneration_extractor(df):
     # Flatten the nested dictionary in the 'PositionLocation' column
     remuneration_df_explode = df.explode('PositionRemuneration')
     remuneration_df = pd.json_normalize(remuneration_df_explode['PositionRemuneration'])
@@ -235,7 +237,7 @@ def main(path,first_run):
     df_clean = df_clean.join(userArea)
     locations = sub_object_json_extractor(df=df_clean,json_col='PositionLocation',columns_to_keep=['LocationName', 'CountryCode', 'CountrySubDivisionCode', 'CityName', 'Longitude', 'Latitude'])
     job_category = sub_object_json_extractor(df=df_clean,json_col='JobCategory',columns_to_keep=['Name', 'Code'])
-    df_clean = rumenation_extractor(df=df_clean)
+    df_clean = remuneration_extractor(df=df_clean)
     df_clean['date_col'] = pd.to_datetime(df_clean['PublicationStartDate']).dt.date
     duties = df_clean[['PositionID','Details_MajorDuties']].explode('Details_MajorDuties')
     jobs = df_clean.drop(['UserArea','PositionLocation','JobCategory','Details_MajorDuties','MinimumRange','MaximumRange','RateIntervalCode','PublicationStartDate','PositionRemuneration'],axis=1)
@@ -254,10 +256,179 @@ if __name__ == "__main__":
     # Access the value of first_run
     main(args.path,args.first_run)
                             
-</code></pre>
+                        </code></pre>
                     </div>
                 </div>
             </div>
+            <br>
+            <h2>Example: Data Before and After Processing</h2>
+            <p>
+                Let's look at one job to illustrate how the data look like prior to processing vs how it looks like after processing. 
+            </p>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#jsonExample">Before Processing (Raw JSON)</button>
+                </h2>
+                <div id="jsonExample" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <pre><code class="language-python">
+{
+    "PositionID": "DE-11724537-25-MRT",
+    "PositionTitle": "CIVIL ENGINEER (STRUCTURAL)",
+    "PositionLocationDisplay": "Naval Base Newport, Rhode Island",
+    "PositionLocation": [
+    {
+        "LocationName": "Naval Base Newport, Rhode Island",
+        "CountryCode": "United States",
+        "CountrySubDivisionCode": "Rhode Island",
+        "CityName": "Naval Base Newport, Rhode Island",
+        "Longitude": -71.41487,
+        "Latitude": 41.595963
+    }
+    ],
+    "OrganizationName": "Naval Facilities Engineering Systems Command",
+    "DepartmentName": "Department of the Navy",
+    "JobCategory": [
+    {
+        "Name": "Civil Engineering",
+        "Code": "0810"
+    }
+    ],
+    "QualificationSummary": "To qualify for the GS-12: In addition to the Basic Requirements for this position, your resume must also demonstrate at least one year of specialized experience as a professional civil engineer at or equivalent to the GS-11 grade level or pay band in the Federal service or equivalent experience in the private or public sector. Specialized experience must demonstrate the 1) Using advanced concepts, principles, and practices in engineering/architecture to enable incumbent to serve as an expert in the complex multiple engineering areas of consultation, design, and construction; 2) Performing structural project development and design; 3) Preparing project specifications and cost estimates; 4) Utilizing computers for design, drafting and preparation on calculations and structural engineering drawings. Additional qualification information can be found from the following Office of Personnel Management website: https://www.opm.gov/policy-data-oversight/classification-qualifications/general-schedule-qualification-standards/#url=GS-PROF AND https://www.opm.gov/policy-data-oversight/classification-qualifications/general-schedule-qualification-standards/0800/files/all-professional-engineering-positions-0800.pdf Experience refers to paid and unpaid experience, including volunteer work done through National Service programs (e.g., professional, philanthropic, religious, spiritual, community, student, social). Volunteer work helps build critical competencies, knowledge, and skills and can provide valuable training and experience that translates directly to paid employment.",
+    "PositionRemuneration": [
+    {
+        "MinimumRange": "100371.0",
+        "MaximumRange": "130488.0",
+        "RateIntervalCode": "PA",
+        "Description": "Per Year"
+    }
+    ],
+    "PublicationStartDate": "2025-01-16T00:00:00.0000",
+    "UserArea": {
+    "Details": {
+        "JobSummary": "You will serve as a Civil Engineer (Structural) in the Capital Improvements Division of NAVFAC ENGINEERING CMD MID-ATLANTIC.",
+        "MajorDuties": [
+        "You will assess structural condition of facilities to determine needs for repairs and modifications.",
+        "You will analyze and design extensive structural alterations.",
+        "You will perform quality assurance review of drawings, specifications, calculations, cost estimates, and studies prepared by A/E design firms.",
+        "You will create written documents such as specifications, test requirement documents, and drawings for civil engineering projects.",
+        "You will complete design drawings and specifications with design and drafting software.",
+        "You will review plans, designs, and construction phases to ensure civil engineering projects remain in scope.",
+        "You will investigate construction to make recommendations for remediation or corrective measures.",
+        "You will advise on solutions to problems encountered during projects."
+        ]
+    }
+    }
+}
+                        </code></pre>
+                    </div>
+                </div>
+            </div>
+
+<div class="accordion-item">
+    <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#dfExample">After Processing (Cleaned & Structured)</button>
+    </h2>
+    <div id="dfExample" class="accordion-collapse collapse">
+        <div class="accordion-body">
+            <div class="accordion-item">
+                <h3 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#dfExamplej">Jobs</button>
+                </h3>
+                <div id="dfExamplej" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                <pre><code class="language-python">
+    {
+        "PositionID": "DE-11724537-25-MRT",
+        "PositionTitle": "CIVIL ENGINEER (STRUCTURAL)",
+        "PositionLocationDisplay": "Naval Base Newport, Rhode Island",
+        "OrganizationName": "Naval Facilities Engineering Systems Command",
+        "DepartmentName": "Department of the Navy",
+        "QualificationSummary": "To qualify for the GS-12: In addition to the B...",
+        "Details_JobSummary": "You will serve as a Civil Engineer (Structural...",
+        "NormalizedMinSalary": 100371.0,
+        "NormalizedMaxSalary": 130488.0,
+        "NormalizedRangeSalary": 30117.0,
+        "NormalizedMaxSalary": 115429.5,
+        "date_col": "2025-01-16"
+    }
+                </code></pre>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h3 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#dfExampled">Duties</button>
+                </h3>
+                <div id="dfExampled" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <pre><code class="language-python">
+{
+    "PositionID": [
+        "DE-11724537-25-MRT",
+        "DE-11724537-25-MRT",
+        "DE-11724537-25-MRT",
+        "DE-11724537-25-MRT",
+        "DE-11724537-25-MRT",
+        "DE-11724537-25-MRT",
+        "DE-11724537-25-MRT",
+        "DE-11724537-25-MRT"
+    ],
+    "Details_MajorDuties": [
+        "You will assess structural condition of facilities to determine needs for repairs and modifications.",
+        "You will analyze and design extensive structural alterations.",
+        "You will perform quality assurance review of drawings, specifications, calculations, cost estimates, and studies prepared by A/E design firms.",
+        "You will create written documents such as specifications, test requirement documents, and drawings for civil engineering projects.",
+        "You will complete design drawings and specifications with design and drafting software.",
+        "You will review plans, designs, and construction phases to ensure civil engineering projects remain in scope.",
+        "You will investigate construction to make recommendations for remediation or corrective measures.",
+        "You will advise on solutions to problems encountered during projects."
+    ]
+}
+                        </code></pre>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h3 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#dfExampleCategory">Job Category</button>
+                </h3>
+                <div id="dfExampleCategory" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <pre><code class="language-python">
+    {
+        "PositionID":"DE-11724537-25-MRT",
+        "Name":"Civil Engineering",
+        "Code":"0810"
+    }
+                        </code></pre>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h3 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#dfExampleLocations">Locations</button>
+                </h3>
+                <div id="dfExampleLocations" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <pre><code class="language-python">
+    {
+        "PositionID":"DE-11724537-25-MRT",
+        "LocationName":"Naval Base Newport",
+        "CountryCode":"Rhode Island",
+        "CountrySubDivisionCode":"United States",
+        "CityName":"Rhode Island, Naval Base Newport, Rhode Island",
+        "Longitude":-71.41487,
+        "Latitude":41.595963
+    }
+                        </code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
             <br>
             <h2>Step 3: Dockerizing the Project</h2>
             <p>
@@ -335,5 +506,7 @@ RUN uv venv && \
         check out the <a href="https://github.com/ArielMAs/arielmas.github.io/tree/main/src/job-market-gov" target="_blank">full project</a> on GitHub!
         </p>
     </div>
+</div>
+
 </body>
 </html>
